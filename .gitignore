@@ -1,2 +1,37 @@
-/node_modules/
-/.idea/
+# Dependency directories
+node_modules/
+.pnp/
+.pnp.cjs
+
+# Build output directories
+build/
+dist/
+out/
+.vite/ # For Vite projects
+coverage/ # Test coverage reports
+
+# Log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
+
+# Editor and IDE specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.DS_Store # macOS specific
+Thumbs.db # Windows specific
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Temporary files
+tmp/
+temp/
