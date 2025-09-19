@@ -1,7 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Navigation } from "./components";
-import { HomePage, LoginForm, RegistrationPage } from "./pages";
+import {
+  CarsCatalogTable,
+  HomePage,
+  LoginForm,
+  RegistrationPage,
+} from "./pages";
 
 export const App = () => {
   return (
@@ -12,6 +17,7 @@ export const App = () => {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/" element={<HomePage />} />
+          <Route path="/catalog-cars" element={<CarsCatalogTable />} />
         </Routes>
       </div>
     </BrowserRouter>

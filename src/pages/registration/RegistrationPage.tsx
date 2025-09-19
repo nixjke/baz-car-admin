@@ -1,8 +1,5 @@
 import { Checkbox } from "@chakra-ui/checkbox";
-import {
-  FormControl,
-  FormLabel,
-} from "@chakra-ui/form-control";
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import {
   Box,
   Button,
@@ -37,7 +34,6 @@ export const RegistrationPage = () => {
       agreeToTerms: false,
     },
   });
-
 
   const isActiveValue = watch("isActive");
 

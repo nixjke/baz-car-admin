@@ -50,9 +50,24 @@ export const carFiltersSchema = z.object({
   condition: z.enum(["new", "used", "damaged"]).optional(),
   isAvailable: z.boolean(),
 });
-
+export const CarResponseSchema = z.object({
+  id: z.number(),
+  image: z.url(),
+  model: z.string(),
+  brand: z.string(),
+  price: z.number().positive(),
+  engineType: z.string(),
+  inStock: z.boolean(),
+  seats: z.number().int().positive(),
+  maxSpeed: z.number().positive(),
+  acceleration: z.number().positive(),
+  power: z.number().positive(),
+  trunkVolume: z.number().positive(),
+  range: z.number().positive(),
+  fuelConsumption: z.number().positive(),
+});
 
 // Типы на основе схем
 export type CarFormData = z.infer<typeof carSchema>;
 export type CarFiltersData = z.infer<typeof carFiltersSchema>;
-
+export type Car = z.infer<typeof CarResponseSchema>;

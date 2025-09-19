@@ -17,6 +17,16 @@ export const Navigation = () => {
         >
           Главная
         </Button>
+        <Button
+          onClick={() => navigate("/catalog-cars")}
+          colorScheme="blue"
+          variant="outline"
+          size="md"
+          color="white"
+          _hover={{ color: "blue.600" }}
+        >
+          Каталог
+        </Button>
 
         <Button
           onClick={() => navigate("/login")}

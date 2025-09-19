@@ -16,3 +16,26 @@
 body {
   margin: 0;
 }
+
+/* App.css */
+.ag-theme-alpine {
+  --ag-header-background-color: #4b6cb7;
+  --ag-header-foreground-color: white;
+  --ag-border-color: #d1d5db;
+  --ag-row-hover-color: #f0f7ff;
+  --ag-font-size: 14px;
+}
+
+.ag-header-cell-text {
+  font-weight: bold;
+}
+
+/* Убедитесь, что контейнер виден */
+.grid-container {
+  height: 500px;
+  width: 100%;
+  margin: 20px 0;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}

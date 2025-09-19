@@ -11,7 +11,7 @@ import { useToast } from "@chakra-ui/toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
-import { type LoginFormData,loginSchema } from "@/shared/lib";
+import { type LoginFormData, loginSchema } from "@/shared/lib";
 
 export const LoginForm = () => {
   const toast = useToast();
