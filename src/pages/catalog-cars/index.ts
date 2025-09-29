@@ -1,0 +1,1 @@
+export { CatalogCarsPage } from "./CatalogCarsPage";

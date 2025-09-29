@@ -1,10 +1,7 @@
-import { Checkbox } from "@chakra-ui/checkbox";
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import {
   Box,
   Button,
   Container,
-  Flex,
   Heading,
   Input,
   Text,
@@ -14,32 +11,27 @@ import { useToast } from "@chakra-ui/toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
-import { type UserFormData, userSchema } from "@/shared/lib";
+import { type RegisterFormData, registerSchema } from "@/shared/lib";
+import { useRegister } from "@/features/auth";
+import { useNavigate } from "react-router-dom";
 
 export const RegistrationPage = () => {
   const toast = useToast();
+  const navigate = useNavigate();
+  const registerMutation = useRegister();
+  
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-    watch,
-  } = useForm<UserFormData>({
-    resolver: zodResolver(userSchema),
-    defaultValues: {
-      role: "viewer",
-      isActive: true,
-      password: "",
-      confirmPassword: "",
-      agreeToTerms: false,
-    },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
   });
 
-  const isActiveValue = watch("isActive");
-
-  const onSubmit: SubmitHandler<UserFormData> = async (data) => {
+  const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
     try {
-      console.log("Данные регистрации:", data);
+      await registerMutation.mutateAsync(data);
       reset();
 
       toast({
@@ -50,6 +42,9 @@ export const RegistrationPage = () => {
         isClosable: true,
         position: "top-right",
       });
+
+      // Перенаправляем на главную страницу
+      navigate("/", { replace: true });
     } catch (error) {
       console.error("Ошибка регистрации:", error);
       toast({
@@ -100,23 +95,46 @@ export const RegistrationPage = () => {
 
             <Box width="100%">
               <Text fontWeight="bold" color="gray.700" mb={2}>
-                Полное имя *
+                Имя *
               </Text>
               <Input
                 type="text"
                 placeholder="Введите ваше имя"
                 size="lg"
                 color="black"
-                {...register("name")}
-                borderColor={errors.name ? "red.300" : "gray.300"}
+                {...register("first_name")}
+                borderColor={errors.first_name ? "red.300" : "gray.300"}
                 _focus={{
                   borderColor: "blue.500",
                   boxShadow: "0 0 0 1px blue.500",
                 }}
               />
-              {errors.name && (
+              {errors.first_name && (
                 <Text color="red.500" fontSize="sm" mt={1}>
-                  {errors.name.message}
+                  {errors.first_name.message}
+                </Text>
+              )}
+            </Box>
+
+            <Box width="100%">
+              <Text fontWeight="bold" color="gray.700" mb={2}>
+                Фамилия *
+              </Text>
+              <Input
+                type="text"
+                placeholder="Введите вашу фамилию"
+                size="lg"
+                color="black"
+                {...register("last_name")}
+                borderColor={errors.last_name ? "red.300" : "gray.300"}
+                _focus={{
+                  borderColor: "blue.500",
+                  boxShadow: "0 0 0 1px blue.500",
+                }}
+              />
+              {errors.last_name && (
+                <Text color="red.500" fontSize="sm" mt={1}>
+                  {errors.last_name.message}
                 </Text>
               )}
             </Box>
@@ -144,61 +162,12 @@ export const RegistrationPage = () => {
               )}
             </Box>
 
-            <Box width="100%">
-              <Text fontWeight="bold" color="gray.700" mb={2}>
-                Подтверждение пароля *
-              </Text>
-              <Input
-                type="password"
-                placeholder="Повторите пароль"
-                size="lg"
-                color="black"
-                {...register("confirmPassword")}
-                borderColor={errors.confirmPassword ? "red.300" : "gray.300"}
-                _focus={{
-                  borderColor: "blue.500",
-                  boxShadow: "0 0 0 1px blue.500",
-                }}
-              />
-              {errors.confirmPassword && (
-                <Text color="red.500" fontSize="sm" mt={1}>
-                  {errors.confirmPassword.message}
-                </Text>
-              )}
-            </Box>
-
-            <VStack gap={4} width="100%" align="start">
-              <FormControl isInvalid={!!errors.agreeToTerms}>
-                <Flex align="center">
-                  <Checkbox
-                    id="agreeToTerms"
-                    {...register("agreeToTerms")}
-                    color="black"
-                    borderColor="gray.400"
-                    borderWidth="2px"
-                    borderRadius="md"
-                    borderStyle="solid"
-                    w={24}
-                    h={24}
-                  />
-                  <FormLabel
-                    htmlFor="agreeToTerms"
-                    mb={0}
-                    ml={3}
-                    cursor="pointer"
-                    color="black"
-                  >
-                    Принимаю пользовательские условия
-                  </FormLabel>
-                </Flex>
-              </FormControl>
-            </VStack>
 
             <Button
               type="submit"
               colorScheme="blue"
               size="lg"
-              loading={isSubmitting}
+              loading={isSubmitting || registerMutation.isPending}
               loadingText="Регистрация..."
               width="full"
               mt={4}
@@ -206,9 +175,6 @@ export const RegistrationPage = () => {
               Зарегистрировать
             </Button>
           </VStack>
-          {!isActiveValue && (
-            <Text fontSize="sm">Пользователь заблокирован</Text>
-          )}
         </form>
       </Box>
     </Container>

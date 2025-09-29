@@ -1,7 +1,9 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
 
 import { Navigation } from "@/components";
-import { HomePage, LoginForm, RegistrationPage } from "@/pages";
+import { LoginForm, RegistrationPage } from "@/pages";
+import { CatalogCarsPage } from "@/pages/catalog-cars";
+import { ProtectedRoute } from "@/shared/lib/ProtectedRoute";
 
 const RootLayout = () => {
   return (
@@ -18,7 +20,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <HomePage />,
+        element: <></>,
       },
       {
         path: "/login",
@@ -27,6 +29,14 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         element: <RegistrationPage />,
+      },
+      {
+        path: "/catalog-cars",
+        element: (
+          <ProtectedRoute>
+            <CatalogCarsPage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

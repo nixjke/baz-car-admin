@@ -12,9 +12,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { type LoginFormData, loginSchema } from "@/shared/lib";
+import { useLogin } from "@/features/auth";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const LoginForm = () => {
   const toast = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const loginMutation = useLogin();
+  
   const {
     register,
     handleSubmit,
@@ -26,7 +32,7 @@ export const LoginForm = () => {
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
-      console.log(data);
+      await loginMutation.mutateAsync(data);
 
       toast({
         title: "Вход выполнен!",
@@ -38,6 +44,10 @@ export const LoginForm = () => {
       });
 
       reset();
+      
+      // Перенаправляем на страницу, с которой пришел пользователь, или на главную
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
     } catch (error) {
       console.error("Ошибка входа:", error);
       toast({
@@ -113,7 +123,7 @@ export const LoginForm = () => {
               type="submit"
               colorScheme="blue"
               size="lg"
-              loading={isSubmitting}
+              loading={isSubmitting || loginMutation.isPending}
               loadingText="Вход..."
               width="full"
               mt={4}
